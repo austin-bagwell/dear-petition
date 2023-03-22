@@ -7,12 +7,10 @@ import Axios from '../service/axios';
 import { Button } from '../components/elements/Button';
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '../components/elements/Table';
 import { Tooltip } from '../components/elements/Tooltip/Tooltip';
-import { useGetUserBatchesQuery } from '../service/api';
+import { useGetUserBatchesQuery, usePetitionQuery } from '../service/api';
 import useAuth from '../hooks/useAuth';
 
 import { SelectDocumentsModal } from './SelectDocuments';
-
-// const [isSelectDocumentsOpen, setIsSelectDocumentsOpen] = useState(false);
 
 const downloadFile = (blob, filename = '') => {
   const url = window.URL.createObjectURL(blob);
@@ -32,6 +30,15 @@ const downloadFile = (blob, filename = '') => {
 export const ExistingPetitions = () => {
   const { user } = useAuth();
   const { data } = useGetUserBatchesQuery({ user: user.pk });
+
+  const [isSelectDocumentsOpen, setIsSelectDocumentsOpen] = useState(false);
+
+  // petitions = data.results[0]?.petitions ... use setState???
+  // const { data: petition } = usePetitionQuery({ petitionId: petitionData.pk });
+  const allDocuments = data ? [data.results[0]?.petitions] : [];
+  // const allDocuments = petition ? [petition.base_document, ...(petition.attachments ?? [])] : [];
+  const [selectedDocuments, setSelectedDocuments] = useState(allDocuments.map(({ pk }) => pk));
+
   return (
     <div className="flex flex-col">
       <h3 className="mb-2">Recent Petitions</h3>
@@ -76,13 +83,7 @@ export const ExistingPetitions = () => {
                 </TableCell>
                 <TableCell className="flex gap-2">
                   {/* TODO onClick proc selectDocumentsModal */}
-                  <Button
-                    onClick={() => {
-                      console.log('I want to open a modal but I cant');
-                    }}
-                  >
-                    Download
-                  </Button>
+                  <Button onClick={() => setIsSelectDocumentsOpen(true)}>Download</Button>
                   <Button
                     onClick={() => {
                       Axios.post(
@@ -120,12 +121,23 @@ export const ExistingPetitions = () => {
                     Record Summary
                   </Button>
                 </TableCell>
+                <SelectDocumentsModal
+                  documents={allDocuments}
+                  selectedDocuments={selectedDocuments}
+                  onAddDocument={(newPk) =>
+                    setSelectedDocuments((prevList) => [...prevList, newPk])
+                  }
+                  onRemoveDocument={(removePk) =>
+                    setSelectedDocuments((prevList) => prevList.filter((pk) => pk !== removePk))
+                  }
+                  isOpen={isSelectDocumentsOpen}
+                  onClose={() => setIsSelectDocumentsOpen(false)}
+                />
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
-      {/* <SelectDocumentsModal isOpen /> */}
     </div>
   );
 };
