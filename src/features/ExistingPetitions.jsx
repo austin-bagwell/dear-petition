@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { formatDistance } from 'date-fns';
@@ -9,6 +9,10 @@ import { Table, TableBody, TableCell, TableHeader, TableRow } from '../component
 import { Tooltip } from '../components/elements/Tooltip/Tooltip';
 import { useGetUserBatchesQuery } from '../service/api';
 import useAuth from '../hooks/useAuth';
+
+import { SelectDocumentsModal } from './SelectDocuments';
+
+// const [isSelectDocumentsOpen, setIsSelectDocumentsOpen] = useState(false);
 
 const downloadFile = (blob, filename = '') => {
   const url = window.URL.createObjectURL(blob);
@@ -71,7 +75,14 @@ export const ExistingPetitions = () => {
                   {formatDistance(new Date(batch.automatic_delete_date), new Date())}
                 </TableCell>
                 <TableCell className="flex gap-2">
-                  <Button>Download</Button>
+                  {/* TODO onClick proc selectDocumentsModal */}
+                  <Button
+                    onClick={() => {
+                      console.log('I want to open a modal but I cant');
+                    }}
+                  >
+                    Download
+                  </Button>
                   <Button
                     onClick={() => {
                       Axios.post(
@@ -114,6 +125,7 @@ export const ExistingPetitions = () => {
           </TableBody>
         </Table>
       </div>
+      {/* <SelectDocumentsModal isOpen /> */}
     </div>
   );
 };
