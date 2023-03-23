@@ -28,7 +28,7 @@ export const SelectDocumentsModal = ({
           type="button"
           colorClass={POSITIVE}
           className="px-4 py-2 self-center"
-          onClick={() => downloadSelectedPetitions()}
+          onClick={() => downloadSelectedPetitions({ documents })}
         >
           Download
         </Button>
@@ -47,8 +47,10 @@ export const SelectDocumentsModal = ({
 
 // sends Axios req
 // PetitionList.js/PetitionRow()/handleGenerate()
-const downloadSelectedPetitions = (...props) => {
-  console.log(`clicked download btn in modal`);
+// I have access to the documents - how does petition generation work?
+// documents are being passed an object: { documents: [{ document }, ...etc] }
+const downloadSelectedPetitions = (docs) => {
+  console.log(docs);
 };
 
 const SelectDocuments = ({ onAddDocument, onRemoveDocument, documents, selectedDocuments }) => (
