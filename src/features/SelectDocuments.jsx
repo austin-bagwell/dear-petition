@@ -23,7 +23,7 @@ export const SelectDocumentsModal = ({
         selectedDocuments={selectedDocuments}
       />
       {/* TODO this button needs to hit the API to  */}
-      <div className="w-[500px] max-h-[500px] p-10 flex flex-row gap-8">
+      <div className="p-10 flex flex-row justify-end gap-8">
         <Button
           type="button"
           colorClass={POSITIVE}
