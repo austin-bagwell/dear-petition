@@ -22,7 +22,7 @@ export const SelectDocumentsModal = ({
         documents={documents}
         selectedDocuments={selectedDocuments}
       />
-      {/* TODO this button needs to hit the API to  */}
+      {/* TODO this button needs to hit the API onClick */}
       <div className="p-10 flex flex-row justify-end gap-8">
         <Button
           type="button"

@@ -33,10 +33,7 @@ export const ExistingPetitions = () => {
 
   const [isSelectDocumentsOpen, setIsSelectDocumentsOpen] = useState(false);
 
-  // petitions = data.results[0]?.petitions ... use setState???
-  // const { data: petition } = usePetitionQuery({ petitionId: petitionData.pk });
   const allDocuments = data ? [data.results[0]?.petitions] : [];
-  // const allDocuments = petition ? [petition.base_document, ...(petition.attachments ?? [])] : [];
   const [selectedDocuments, setSelectedDocuments] = useState(allDocuments.map(({ pk }) => pk));
 
   return (
@@ -132,17 +129,18 @@ export const ExistingPetitions = () => {
               </TableRow>
             ))}
           </TableBody>
-          <SelectDocumentsModal
-            documents={allDocuments}
-            selectedDocuments={selectedDocuments}
-            onAddDocument={(newPk) => setSelectedDocuments((prevList) => [...prevList, newPk])}
-            onRemoveDocument={(removePk) =>
-              setSelectedDocuments((prevList) => prevList.filter((pk) => pk !== removePk))
-            }
-            isOpen={isSelectDocumentsOpen}
-            onClose={() => setIsSelectDocumentsOpen(false)}
-          />
         </Table>
+        <SelectDocumentsModal
+          // TODO how to feed the correct documents into here?
+          documents={data.results[0].petitions}
+          selectedDocuments={selectedDocuments}
+          onAddDocument={(newPk) => setSelectedDocuments((prevList) => [...prevList, newPk])}
+          onRemoveDocument={(removePk) =>
+            setSelectedDocuments((prevList) => prevList.filter((pk) => pk !== removePk))
+          }
+          isOpen={isSelectDocumentsOpen}
+          onClose={() => setIsSelectDocumentsOpen(false)}
+        />
       </div>
     </div>
   );
