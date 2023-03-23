@@ -33,9 +33,6 @@ export const ExistingPetitions = () => {
 
   const [isSelectDocumentsOpen, setIsSelectDocumentsOpen] = useState(false);
   const [petitionerDocuments, setPetitionerDocuments] = useState();
-
-  const allDocuments = data ? [data.results[0]?.petitions] : [];
-  // const [selectedDocuments, setSelectedDocuments] = useState(allDocuments.map(({ pk }) => pk));
   const [selectedDocuments, setSelectedDocuments] = useState([]);
 
   return (
