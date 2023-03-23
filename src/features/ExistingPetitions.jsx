@@ -32,9 +32,11 @@ export const ExistingPetitions = () => {
   const { data } = useGetUserBatchesQuery({ user: user.pk });
 
   const [isSelectDocumentsOpen, setIsSelectDocumentsOpen] = useState(false);
+  const [petitionerDocuments, setPetitionerDocuments] = useState();
 
   const allDocuments = data ? [data.results[0]?.petitions] : [];
-  const [selectedDocuments, setSelectedDocuments] = useState(allDocuments.map(({ pk }) => pk));
+  // const [selectedDocuments, setSelectedDocuments] = useState(allDocuments.map(({ pk }) => pk));
+  const [selectedDocuments, setSelectedDocuments] = useState([]);
 
   return (
     <div className="flex flex-col">
@@ -79,11 +81,12 @@ export const ExistingPetitions = () => {
                   {formatDistance(new Date(batch.automatic_delete_date), new Date())}
                 </TableCell>
                 <TableCell className="flex gap-2">
-                  {/* TODO onClick proc selectDocumentsModal */}
                   <Button
                     onClick={() => {
-                      const petitioner = data.results[i].petitions;
-                      console.log(petitioner);
+                      const petitionerDocs = data.results[i].petitions;
+                      console.log(petitionerDocs);
+                      setPetitionerDocuments(petitionerDocs);
+                      setSelectedDocuments(petitionerDocs.map(({ pk }) => pk));
                       setIsSelectDocumentsOpen(true);
                     }}
                   >
@@ -131,8 +134,7 @@ export const ExistingPetitions = () => {
           </TableBody>
         </Table>
         <SelectDocumentsModal
-          // TODO how to feed the correct documents into here?
-          documents={data.results[0].petitions}
+          documents={petitionerDocuments}
           selectedDocuments={selectedDocuments}
           onAddDocument={(newPk) => setSelectedDocuments((prevList) => [...prevList, newPk])}
           onRemoveDocument={(removePk) =>
