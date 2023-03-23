@@ -7,7 +7,7 @@ import Axios from '../service/axios';
 import { Button } from '../components/elements/Button';
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '../components/elements/Table';
 import { Tooltip } from '../components/elements/Tooltip/Tooltip';
-import { useGetUserBatchesQuery, usePetitionQuery } from '../service/api';
+import { useGetUserBatchesQuery } from '../service/api';
 import useAuth from '../hooks/useAuth';
 
 import { SelectDocumentsModal } from './SelectDocuments';
