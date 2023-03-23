@@ -2,7 +2,7 @@ import React from 'react';
 import StyledDialog from '../components/elements/Modal/Dialog';
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '../components/elements/Table';
 import Button from '../components/elements/Button';
-import { NEUTRAL } from '../components/elements/Button/Button';
+import { NEUTRAL, POSITIVE } from '../components/elements/Button/Button';
 
 export const SelectDocumentsModal = ({
   isOpen,
@@ -22,14 +22,25 @@ export const SelectDocumentsModal = ({
         documents={documents}
         selectedDocuments={selectedDocuments}
       />
-      <Button
-        type="button"
-        colorClass={NEUTRAL}
-        className="px-4 py-2 self-center"
-        onClick={() => onClose()}
-      >
-        Close
-      </Button>
+      {/* TODO this button needs to hit the API to  */}
+      <div className="w-[500px] max-h-[500px] p-10 flex flex-row gap-8">
+        <Button
+          type="button"
+          colorClass={POSITIVE}
+          className="px-4 py-2 self-center"
+          onClick={() => onClose()}
+        >
+          Download
+        </Button>
+        <Button
+          type="button"
+          colorClass={NEUTRAL}
+          className="px-4 py-2 self-center"
+          onClick={() => onClose()}
+        >
+          Close
+        </Button>
+      </div>
     </div>
   </StyledDialog>
 );

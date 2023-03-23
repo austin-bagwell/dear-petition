@@ -66,7 +66,7 @@ export const ExistingPetitions = () => {
             <TableCell header />
           </TableHeader>
           <TableBody>
-            {data?.results?.map((batch) => (
+            {data?.results?.map((batch, i) => (
               <TableRow key={batch.pk}>
                 <TableCell>{batch.label}</TableCell>
                 <TableCell>
@@ -83,7 +83,15 @@ export const ExistingPetitions = () => {
                 </TableCell>
                 <TableCell className="flex gap-2">
                   {/* TODO onClick proc selectDocumentsModal */}
-                  <Button onClick={() => setIsSelectDocumentsOpen(true)}>Download</Button>
+                  <Button
+                    onClick={() => {
+                      const petitioner = data.results[i].petitions;
+                      console.log(petitioner);
+                      setIsSelectDocumentsOpen(true);
+                    }}
+                  >
+                    Download
+                  </Button>
                   <Button
                     onClick={() => {
                       Axios.post(
@@ -121,21 +129,19 @@ export const ExistingPetitions = () => {
                     Record Summary
                   </Button>
                 </TableCell>
-                <SelectDocumentsModal
-                  documents={allDocuments}
-                  selectedDocuments={selectedDocuments}
-                  onAddDocument={(newPk) =>
-                    setSelectedDocuments((prevList) => [...prevList, newPk])
-                  }
-                  onRemoveDocument={(removePk) =>
-                    setSelectedDocuments((prevList) => prevList.filter((pk) => pk !== removePk))
-                  }
-                  isOpen={isSelectDocumentsOpen}
-                  onClose={() => setIsSelectDocumentsOpen(false)}
-                />
               </TableRow>
             ))}
           </TableBody>
+          <SelectDocumentsModal
+            documents={allDocuments}
+            selectedDocuments={selectedDocuments}
+            onAddDocument={(newPk) => setSelectedDocuments((prevList) => [...prevList, newPk])}
+            onRemoveDocument={(removePk) =>
+              setSelectedDocuments((prevList) => prevList.filter((pk) => pk !== removePk))
+            }
+            isOpen={isSelectDocumentsOpen}
+            onClose={() => setIsSelectDocumentsOpen(false)}
+          />
         </Table>
       </div>
     </div>
