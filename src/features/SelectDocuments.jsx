@@ -28,7 +28,7 @@ export const SelectDocumentsModal = ({
           type="button"
           colorClass={POSITIVE}
           className="px-4 py-2 self-center"
-          onClick={() => onClose()}
+          onClick={() => handleDownloadBtnClick()}
         >
           Download
         </Button>
@@ -44,6 +44,10 @@ export const SelectDocumentsModal = ({
     </div>
   </StyledDialog>
 );
+
+// sends Axios req
+// PetitionList.js/PetitionRow()/handleGenerate()
+const handleDownloadBtnClick = (...props) => {};
 
 const SelectDocuments = ({ onAddDocument, onRemoveDocument, documents, selectedDocuments }) => (
   <Table columnSizes="40px 1fr">
