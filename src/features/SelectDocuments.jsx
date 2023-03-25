@@ -40,12 +40,10 @@ export const SelectDocumentsModal = ({
 );
 
 // sends Axios req
-// PetitionList.js/PetitionRow()/handleGenerate()
-// I have access to the documents - how does petition generation work?
-// documents are being passed an object: { documents: [{ document }, ...etc] }
-const handleDownload = (docs) => {
-  console.log(docs);
-  console.log(docs.pk);
+const handleDownload = (document) => {
+  const documentPk = document.documents[0];
+  console.log(`documentPk passed into SelectDocuments onClick`);
+  console.log(documentPk);
   /*
   const handleGet = async () => {
     const petitionId = docs.pk;
