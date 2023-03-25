@@ -81,8 +81,6 @@ export const ExistingPetitions = () => {
                   <Button
                     onClick={() => {
                       const petitionerDocs = data.results[i].petitions;
-                      console.log(`petition docs passed into ExistingPetitons`);
-                      console.log(petitionerDocs);
                       setPetitionerDocuments(petitionerDocs);
                       setSelectedDocuments(petitionerDocs.map(({ pk }) => pk));
                       setIsSelectDocumentsOpen(true);
