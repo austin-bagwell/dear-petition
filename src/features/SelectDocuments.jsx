@@ -2,7 +2,7 @@ import React from 'react';
 import StyledDialog from '../components/elements/Modal/Dialog';
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '../components/elements/Table';
 import Button from '../components/elements/Button';
-import { NEUTRAL, POSITIVE } from '../components/elements/Button/Button';
+import { POSITIVE } from '../components/elements/Button/Button';
 import downloadPdf from '../util/downloadPdf';
 import Axios from '../service/axios';
 
@@ -12,6 +12,7 @@ export const SelectDocumentsModal = ({
   onRemoveDocument,
   onClose,
   documents,
+  hasExistingDocuments,
   selectedDocuments,
 }) => (
   <StyledDialog isOpen={isOpen} onClose={() => onClose()}>
@@ -23,12 +24,12 @@ export const SelectDocumentsModal = ({
         onRemoveDocument={onRemoveDocument}
         documents={documents}
         selectedDocuments={selectedDocuments}
+        hasExistingDocuments={hasExistingDocuments}
       />
-      {/* TODO this button needs to hit the API onClick */}
       <div className="p-10 flex flex-row justify-center gap-8">
         <Button
           type="button"
-          colorClass={NEUTRAL}
+          colorClass={POSITIVE}
           className="px-4 py-2 self-center"
           onClick={() => onClose()}
         >
@@ -39,7 +40,6 @@ export const SelectDocumentsModal = ({
   </StyledDialog>
 );
 
-// sends Axios req
 const handleDownload = async (document) => {
   const { pk, documents } = document;
   try {
@@ -58,7 +58,13 @@ const handleDownload = async (document) => {
   }
 };
 
-const SelectDocuments = ({ onAddDocument, onRemoveDocument, documents, selectedDocuments }) => (
+const SelectDocuments = ({
+  onAddDocument,
+  onRemoveDocument,
+  documents,
+  selectedDocuments,
+  hasExistingDocuments,
+}) => (
   <Table columnSizes="3 1fr">
     <TableHeader>
       <TableCell header />
@@ -79,14 +85,18 @@ const SelectDocuments = ({ onAddDocument, onRemoveDocument, documents, selectedD
           </TableCell>
           <TableCell className="flex-grow">{document.form_type}</TableCell>
           <TableCell>
-            <Button
-              type="button"
-              colorClass={POSITIVE}
-              className="px-4 py-2 self-center"
-              onClick={() => handleDownload(document)}
-            >
-              Download
-            </Button>
+            {hasExistingDocuments ? (
+              <Button
+                type="button"
+                colorClass={POSITIVE}
+                className="px-4 py-2 self-center"
+                onClick={() => handleDownload(document)}
+              >
+                Download
+              </Button>
+            ) : (
+              <p />
+            )}
           </TableCell>
         </TableRow>
       ))}

@@ -132,6 +132,7 @@ export const ExistingPetitions = () => {
         <SelectDocumentsModal
           documents={petitionerDocuments}
           selectedDocuments={selectedDocuments}
+          hasExistingDocuments
           onAddDocument={(newPk) => setSelectedDocuments((prevList) => [...prevList, newPk])}
           onRemoveDocument={(removePk) =>
             setSelectedDocuments((prevList) => prevList.filter((pk) => pk !== removePk))

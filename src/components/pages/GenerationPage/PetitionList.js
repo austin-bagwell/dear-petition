@@ -251,6 +251,7 @@ function PetitionRow({ petitionData, validateInput, backgroundColor, setFormErro
         petitionId={petition.pk}
         documents={allDocuments}
         selectedDocuments={selectedDocuments}
+        hasExistingDocuments={false}
         onAddDocument={(newPk) => setSelectedDocuments((prevList) => [...prevList, newPk])}
         onRemoveDocument={(removePk) =>
           setSelectedDocuments((prevList) => prevList.filter((pk) => pk !== removePk))
