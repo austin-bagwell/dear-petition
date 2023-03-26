@@ -3,7 +3,7 @@ import StyledDialog from '../components/elements/Modal/Dialog';
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '../components/elements/Table';
 import Button from '../components/elements/Button';
 import { NEUTRAL, POSITIVE } from '../components/elements/Button/Button';
-
+import downloadPdf from '../util/downloadPdf';
 import Axios from '../service/axios';
 
 export const SelectDocumentsModal = ({
@@ -40,45 +40,24 @@ export const SelectDocumentsModal = ({
 );
 
 // sends Axios req
-const handleDownload = (document) => {
-  const documentPk = document.documents[0];
-  console.log(`documentPk passed into SelectDocuments onClick`);
-  console.log(documentPk);
-  /*
-  const handleGet = async () => {
-    const petitionId = docs.pk;
-    // petition: builder.query({
-    //   query: ({ petitionId }) => ({ url: `/petitions/${petitionId}/`, method: 'GET' }),
-    //   providesTags: (_result, _err, { petitionId }) => [{ type: 'Petition', id: petitionId }],
-    // }),
-    // need to pass in list of documents I want to download
-    // petition/api/petitions/<pk>/generate_petition_pdf or something like that
-    // needs list of document pks'
-    try {
-      const { data } = await Axios.get(`/petitions/${petitionId}/`, {
+const handleDownload = async (document) => {
+  const { pk, documents } = document;
+  try {
+    const { data, headers } = await Axios.post(
+      `/petitions/${pk}/generate_petition_pdf/`,
+      { documents },
+      {
         responseType: 'arraybuffer',
-      });
-      console.log(data);
-      downloadPdf(data, 'filenameLOL.pdf');
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const downloadPdf = (pdf, filename) => {
-    const pdfBlob = new Blob([pdf], { type: 'application/pdf' });
-    const url = window.URL.createObjectURL(pdfBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = filename;
-    link.click();
-    setTimeout(() => {
-      window.URL.revokeObjectURL(url);
-      link.remove();
-    });
-  };
-  */
+      }
+    );
+    const filename =
+      headers['content-disposition']?.match(/filename="(.*)"/)?.[1] ?? 'petition.pdf';
+    downloadPdf(data, filename);
+  } catch (err) {
+    console.log(err);
+  }
 };
+
 const SelectDocuments = ({ onAddDocument, onRemoveDocument, documents, selectedDocuments }) => (
   <Table columnSizes="3 1fr">
     <TableHeader>
