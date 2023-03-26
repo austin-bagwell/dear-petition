@@ -66,6 +66,7 @@ export const ExistingPetitions = () => {
                 <TableCell>{batch.label}</TableCell>
                 <TableCell>
                   <Link to={`/generate/${batch.pk}`}>
+                    {/* TODO: button throws err because there isn't onClick prop */}
                     <Button className="w-[105px]">
                       {`${batch.petitions.length} Petition${
                         batch.petitions.length === 1 ? '' : 's'
@@ -79,9 +80,8 @@ export const ExistingPetitions = () => {
                 <TableCell className="flex gap-2">
                   <Button
                     onClick={() => {
-                      const petitionerDocs = data.results[i].petitions;
-                      setPetitionerDocuments(petitionerDocs);
-                      // setSelectedDocuments(petitionerDocs.map(({ pk }) => pk));
+                      const documents = data.results[i].petitions;
+                      setPetitionerDocuments(documents);
                       setIsSelectDocumentsOpen(true);
                     }}
                   >
