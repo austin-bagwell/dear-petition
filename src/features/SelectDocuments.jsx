@@ -44,24 +44,6 @@ export const SelectDocumentsModal = ({
   </StyledDialog>
 );
 
-const handleDownload = async (document) => {
-  const { pk, documents } = document;
-  try {
-    const { data, headers } = await Axios.post(
-      `/petitions/${pk}/generate_petition_pdf/`,
-      { documents },
-      {
-        responseType: 'arraybuffer',
-      }
-    );
-    const filename =
-      headers['content-disposition']?.match(/filename="(.*)"/)?.[1] ?? 'petition.pdf';
-    downloadPdf(data, filename);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 const DownloadExistingDocuments = ({ documents }) => (
   <Table columnSizes="3 1fr">
     <TableHeader>
@@ -113,3 +95,21 @@ const SelectDocuments = ({ onAddDocument, onRemoveDocument, documents, selectedD
     </TableBody>
   </Table>
 );
+
+const handleDownload = async (document) => {
+  const { pk, documents } = document;
+  try {
+    const { data, headers } = await Axios.post(
+      `/petitions/${pk}/generate_petition_pdf/`,
+      { documents },
+      {
+        responseType: 'arraybuffer',
+      }
+    );
+    const filename =
+      headers['content-disposition']?.match(/filename="(.*)"/)?.[1] ?? 'petition.pdf';
+    downloadPdf(data, filename);
+  } catch (err) {
+    console.log(err);
+  }
+};
