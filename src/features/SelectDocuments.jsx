@@ -19,13 +19,17 @@ export const SelectDocumentsModal = ({
     <div className="w-[500px] max-h-[500px] p-10 flex flex-col gap-8">
       <h3>Select Documents for Download</h3>
       <p className="text-[1.6rem]">Please select or de-select documents here for download.</p>
-      <SelectDocuments
-        onAddDocument={onAddDocument}
-        onRemoveDocument={onRemoveDocument}
-        documents={documents}
-        selectedDocuments={selectedDocuments}
-        hasExistingDocuments={hasExistingDocuments}
-      />
+      {hasExistingDocuments ? (
+        <DownloadExistingDocuments documents={documents} />
+      ) : (
+        <SelectDocuments
+          onAddDocument={onAddDocument}
+          onRemoveDocument={onRemoveDocument}
+          documents={documents}
+          selectedDocuments={selectedDocuments}
+        />
+      )}
+
       <div className="p-10 flex flex-row justify-center gap-8">
         <Button
           type="button"
@@ -58,13 +62,7 @@ const handleDownload = async (document) => {
   }
 };
 
-const SelectDocuments = ({
-  onAddDocument,
-  onRemoveDocument,
-  documents,
-  selectedDocuments,
-  hasExistingDocuments,
-}) => (
+const DownloadExistingDocuments = ({ documents }) => (
   <Table columnSizes="3 1fr">
     <TableHeader>
       <TableCell header />
@@ -73,7 +71,33 @@ const SelectDocuments = ({
     <TableBody>
       {documents.map((document) => (
         <TableRow className="flex" key={document.pk}>
-          <TableCell className="flex-none">
+          <TableCell className="flex-grow">{document.form_type}</TableCell>
+          <TableCell>
+            <Button
+              type="button"
+              colorClass={POSITIVE}
+              className="px-4 py-2 self-center"
+              onClick={() => handleDownload(document)}
+            >
+              Download
+            </Button>
+          </TableCell>
+        </TableRow>
+      ))}
+    </TableBody>
+  </Table>
+);
+
+const SelectDocuments = ({ onAddDocument, onRemoveDocument, documents, selectedDocuments }) => (
+  <Table columnSizes="40px 1fr">
+    <TableHeader>
+      <TableCell header />
+      <TableCell header>Form</TableCell>
+    </TableHeader>
+    <TableBody>
+      {documents.map((document) => (
+        <TableRow key={document.pk}>
+          <TableCell>
             <input
               type="checkbox"
               className="cursor-pointer"
@@ -83,21 +107,7 @@ const SelectDocuments = ({
               }
             />
           </TableCell>
-          <TableCell className="flex-grow">{document.form_type}</TableCell>
-          <TableCell>
-            {hasExistingDocuments ? (
-              <Button
-                type="button"
-                colorClass={POSITIVE}
-                className="px-4 py-2 self-center"
-                onClick={() => handleDownload(document)}
-              >
-                Download
-              </Button>
-            ) : (
-              <p />
-            )}
-          </TableCell>
+          <TableCell>{document.form_type}</TableCell>
         </TableRow>
       ))}
     </TableBody>
