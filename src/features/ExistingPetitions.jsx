@@ -33,7 +33,6 @@ export const ExistingPetitions = () => {
 
   const [isSelectDocumentsOpen, setIsSelectDocumentsOpen] = useState(false);
   const [petitionerDocuments, setPetitionerDocuments] = useState();
-  const [selectedDocuments, setSelectedDocuments] = useState([]);
 
   return (
     <div className="flex flex-col">
@@ -82,7 +81,7 @@ export const ExistingPetitions = () => {
                     onClick={() => {
                       const petitionerDocs = data.results[i].petitions;
                       setPetitionerDocuments(petitionerDocs);
-                      setSelectedDocuments(petitionerDocs.map(({ pk }) => pk));
+                      // setSelectedDocuments(petitionerDocs.map(({ pk }) => pk));
                       setIsSelectDocumentsOpen(true);
                     }}
                   >
@@ -130,13 +129,8 @@ export const ExistingPetitions = () => {
           </TableBody>
         </Table>
         <SelectDocumentsModal
-          documents={petitionerDocuments}
-          selectedDocuments={selectedDocuments}
           hasExistingDocuments
-          onAddDocument={(newPk) => setSelectedDocuments((prevList) => [...prevList, newPk])}
-          onRemoveDocument={(removePk) =>
-            setSelectedDocuments((prevList) => prevList.filter((pk) => pk !== removePk))
-          }
+          documents={petitionerDocuments}
           isOpen={isSelectDocumentsOpen}
           onClose={() => setIsSelectDocumentsOpen(false)}
         />
