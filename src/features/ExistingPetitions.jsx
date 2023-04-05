@@ -11,6 +11,7 @@ import { useGetUserBatchesQuery } from '../service/api';
 import useAuth from '../hooks/useAuth';
 import { DownloadDocumentsModal } from './DownloadDocuments';
 import { hasValidationsErrors } from '../util/errors';
+import cx from 'classnames';
 
 const downloadFile = (blob, filename = '') => {
   const url = window.URL.createObjectURL(blob);
@@ -75,7 +76,7 @@ export const ExistingPetitions = () => {
                 <TableCell>
                   {formatDistance(new Date(batch.automatic_delete_date), new Date())}
                 </TableCell>
-                <TableCell className="flex gap-2">
+                <TableCell className="flex justify-end gap-2">
                   <Button
                     disabled={batch.petitions.every((petition) =>
                       hasValidationsErrors(petition.can_generate)
@@ -94,6 +95,8 @@ export const ExistingPetitions = () => {
                     Download
                   </Button>
                   <Button
+                    // Legal team requested this be temporarily removed from UI
+                    className={cx('w-0', { invisible: true })}
                     disabled={!!batch?.can_generate_letter?.batch}
                     title={batch?.can_generate_letter?.batch?.join(' ') ?? ''}
                     onClick={() => {

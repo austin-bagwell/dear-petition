@@ -4,6 +4,7 @@ import { GenerationPageStyled, GenerationContentStyled } from './GenerationPage.
 import { colorGrey } from '../../../styles/colors';
 import { smallerThanTabletLandscape } from '../../../styles/media';
 import { saveAs } from 'file-saver';
+import cx from 'classnames';
 
 // Router
 import { useParams } from 'react-router-dom';
@@ -111,6 +112,7 @@ function GenerationPage() {
     }
   };
 
+  // Legal team requested this be temporarily removed from UI
   const generateAdviceLetter = async () => {
     if (!validateInput()) {
       return;
@@ -174,7 +176,9 @@ function GenerationPage() {
             >
               Create Expungable Record Summary
             </Button>
+            {/* Legal team requested this be temporarily removed from UI */}
             <Button
+              className={cx('w-0', { invisible: true })}
               onClick={() => generateAdviceLetter()}
               disabled={!!data?.can_generate_letter?.batch}
               title={data?.can_generate_letter?.batch?.join(' ') ?? ''}
